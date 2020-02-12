@@ -1,0 +1,8 @@
+node_modules
+coverage
+libraries
+ts/dist
+.nyc_output/
+.libraries.json
+.DS_Store
+ts/test/figures/*.zip
