@@ -4,7 +4,7 @@
 	"version": "1.6.1",
 	"main": "./util.tea",
 	"releases": {
-		"go": "gitlab.alibaba-inc.com/alicloud-sdk/fc-util/golang/service:v0.0.1",
+		"go": "github.com/aliyun/fc-util/golang/service:v0.0.1",
 		"ts": "@ali/fc-util:^1.6.1",
 		"java": "com.aliyun:fc-util:0.0.1",
 		"csharp": "AlibabaCloud.FCUtil:0.0.1"
