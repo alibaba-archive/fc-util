@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/aliyun/fc-util/golang/utils"
 )
 
 func GetContentMD5(a []byte) string {
@@ -45,12 +44,21 @@ func Is4XXor5XX(code int) bool {
 }
 
 func buildRpcStringToSign(request *tea.Request, queriesToSign map[string]string) (stringToSign string) {
-	stringToSign = utils.GetUrlFormedMap(queriesToSign)
+	stringToSign = getUrlFormedMap(queriesToSign)
 	stringToSign = strings.Replace(stringToSign, "+", "%20", -1)
 	stringToSign = strings.Replace(stringToSign, "*", "%2A", -1)
 	stringToSign = strings.Replace(stringToSign, "%7E", "~", -1)
 	stringToSign = url.QueryEscape(stringToSign)
 	stringToSign = request.Method + "&%2F&" + stringToSign
+	return
+}
+
+func getUrlFormedMap(source map[string]string) (urlEncoded string) {
+	urlEncoder := url.Values{}
+	for key, value := range source {
+		urlEncoder.Add(key, value)
+	}
+	urlEncoded = urlEncoder.Encode()
 	return
 }
 

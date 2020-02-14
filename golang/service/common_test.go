@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/aliyun/fc-util/golang/utils"
+	"github.com/alibabacloud-go/tea/utils"
 )
 
 func Test_GetContentMD5(t *testing.T) {

@@ -5,4 +5,5 @@ ts/dist
 .nyc_output/
 .libraries.json
 .DS_Store
+go.sum
 ts/test/figures/*.zip
