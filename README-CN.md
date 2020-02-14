@@ -1,7 +1,7 @@
 [English](README.md) | 简体中文
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-## Alibaba Cloud FC Util
+# Alibaba Cloud FC Util
 
 ## 安装
 
