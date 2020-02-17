@@ -51,6 +51,7 @@ namespace tests
         {
             Assert.Equal("a", Common.Use(true, "a", "b"));
             Assert.Equal("b", Common.Use(false, "a", "b"));
+            Assert.Equal("b", Common.Use(null, "a", "b"));
         }
 
         [Fact]

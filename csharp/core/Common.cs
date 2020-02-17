@@ -45,12 +45,12 @@ namespace AlibabaCloud.FCUtil
             return string.Format("FC {0}:{1}", accessKeyId, signedStr);
         }
 
-        public static string Use(bool condition, string a, string b)
+        public static string Use(bool? condition, string a, string b)
         {
-            return condition ? a : b;
+            return condition!=null && condition==true ? a : b;
         }
 
-        public static bool Is4XXor5XX(int code)
+        public static bool Is4XXor5XX(int? code)
         {
             return code >= 400 && code < 600;
         }
