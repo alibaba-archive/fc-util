@@ -7,3 +7,6 @@ ts/dist
 .DS_Store
 go.sum
 ts/test/figures/*.zip
+csharp/**/bin/
+csharp/**/obj/
+csharp/**/.vs
