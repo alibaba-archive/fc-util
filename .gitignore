@@ -10,3 +10,5 @@ ts/test/figures/*.zip
 csharp/**/bin/
 csharp/**/obj/
 csharp/**/.vs
+.idea/
+.vscode/
