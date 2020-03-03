@@ -1,7 +1,7 @@
 English | [简体中文](README-CN.md)
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-## Alibaba Cloud Tea Util for Swift
+## AlibabaCloud FC Utils for Swift
 
 ## Installation
 
@@ -14,7 +14,7 @@ add AlibabaCloudFCUtils.xcodeproj to your XCodeSpace project
 
 ## Issues
 
-[Opening an Issue](https://github.com/aliyun/tea-util/issues/new), Issues not conforming to the guidelines may be closed immediately.
+[Opening an Issue](https://github.com/aliyun/fc-util/issues/new), Issues not conforming to the guidelines may be closed immediately.
 
 ## Changelog
 
@@ -22,7 +22,7 @@ Detailed changes for each release are documented in the [release notes](./Change
 
 ## References
 
-* [Latest Release](https://github.com/aliyun/tea-util/tree/master/swift)
+* [Latest Release](https://github.com/aliyun/fc-util/tree/master/swift)
 
 ## License
 
