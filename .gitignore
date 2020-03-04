@@ -12,3 +12,5 @@ csharp/**/obj/
 csharp/**/.vs
 .idea/
 .vscode/
+target/
+*.iml
