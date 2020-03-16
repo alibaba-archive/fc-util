@@ -36,14 +36,3 @@ func Test_Use(t *testing.T) {
 	str = Use(true, "1", "2")
 	utils.AssertEqual(t, "1", str)
 }
-
-func Test_Is4XXor5XX(t *testing.T) {
-	ok := Is4XXor5XX(500)
-	utils.AssertEqual(t, true, ok)
-
-	ok = Is4XXor5XX(300)
-	utils.AssertEqual(t, false, ok)
-
-	ok = Is4XXor5XX(600)
-	utils.AssertEqual(t, false, ok)
-}

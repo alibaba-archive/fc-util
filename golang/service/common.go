@@ -39,10 +39,6 @@ func Use(condition bool, a string, b string) string {
 	return b
 }
 
-func Is4XXor5XX(code int) bool {
-	return code >= 400 && code < 600
-}
-
 func buildRpcStringToSign(request *tea.Request, queriesToSign map[string]string) (stringToSign string) {
 	stringToSign = getUrlFormedMap(queriesToSign)
 	stringToSign = strings.Replace(stringToSign, "+", "%20", -1)
