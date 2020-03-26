@@ -3,16 +3,32 @@
 	"name": "FCUtil",
 	"version": "1.6.1",
 	"main": "./util.tea",
+	"maintainers": [
+		{
+			"name": "Alibaba Cloud SDK",
+			"email": "sdk-team@alibabacloud.com"
+		}
+	],
 	"releases": {
 		"go": "github.com/aliyun/fc-util/golang/service:v0.0.1",
 		"ts": "@alicloud/fc-util:1.0.0",
 		"java": "com.aliyun:fc-util:0.0.1",
-		"csharp": "AlibabaCloud.FCUtil:0.0.1"
+		"csharp": "AlibabaCloud.FCUtil:0.0.1",
+		"php": "alibabacloud/tea-fc-utils:^0.1.0"
 	},
 	"java": {
 		"package": "com.aliyun.fcutil"
 	},
-	"csharp":{
-		"namespace":"AlibabaCloud.FCUtil"
+	"csharp": {
+		"namespace": "AlibabaCloud.FCUtil"
+	},
+	"php": {
+		"package": "AlibabaCloud.Tea.FCUtils",
+		"clientName": "FCUtils",
+		"packageInfo": {
+			"name": "alibabacloud/tea-fc-utils",
+			"desc": "Alibaba Cloud FC Util for PHP",
+			"github": "https://github.com/aliyun/fc-util"
+		}
 	}
 }
