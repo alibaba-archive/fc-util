@@ -1,11 +1,14 @@
 package service
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/md5"
-	"crypto/sha1"
+	"crypto/sha256"
 	"encoding/base64"
-	"net/url"
+	"hash"
+	"io"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -27,9 +30,100 @@ func GetSignature(accessKeyId string, accessKeySecret string, request *tea.Reque
 	if strings.HasPrefix(request.Pathname, versionPrefix+"/proxy/") {
 		queriesToSign = request.Query
 	}
-	stringToSign := buildRpcStringToSign(request, queriesToSign)
-	signature := sign(stringToSign, accessKeySecret, "&")
+	signature := getSignature(request, queriesToSign, accessKeySecret)
 	return "FC " + accessKeyId + ":" + signature
+}
+
+func getSignature(request *tea.Request, queriesToSign map[string]string, accessKeySecret string) string {
+	resource := request.Pathname
+	if !strings.Contains(resource, "?") && len(queriesToSign) > 0 {
+		resource += "?"
+	}
+	for key, value := range queriesToSign {
+		if value != "" {
+			if strings.HasSuffix(resource, "?") {
+				resource = resource + key + "=" + value
+			} else {
+				resource = resource + "&" + key + "=" + value
+			}
+		}
+	}
+	return getSignedStr(request, resource, accessKeySecret)
+}
+
+// Sorter defines the key-value structure for storing the sorted data in signHeader.
+type Sorter struct {
+	Keys []string
+	Vals []string
+}
+
+// newSorter is an additional function for function Sign.
+func newSorter(m map[string]string) *Sorter {
+	hs := &Sorter{
+		Keys: make([]string, 0, len(m)),
+		Vals: make([]string, 0, len(m)),
+	}
+
+	for k, v := range m {
+		hs.Keys = append(hs.Keys, k)
+		hs.Vals = append(hs.Vals, v)
+	}
+	return hs
+}
+
+// Sort is an additional function for function SignHeader.
+func (hs *Sorter) Sort() {
+	sort.Sort(hs)
+}
+
+// Len is an additional function for function SignHeader.
+func (hs *Sorter) Len() int {
+	return len(hs.Vals)
+}
+
+// Less is an additional function for function SignHeader.
+func (hs *Sorter) Less(i, j int) bool {
+	return bytes.Compare([]byte(hs.Keys[i]), []byte(hs.Keys[j])) < 0
+}
+
+// Swap is an additional function for function SignHeader.
+func (hs *Sorter) Swap(i, j int) {
+	hs.Vals[i], hs.Vals[j] = hs.Vals[j], hs.Vals[i]
+	hs.Keys[i], hs.Keys[j] = hs.Keys[j], hs.Keys[i]
+}
+
+func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret string) string {
+	// Find out the "x-oss-"'s address in header of the request
+	temp := make(map[string]string)
+
+	for k, v := range req.Headers {
+		if strings.HasPrefix(strings.ToLower(k), "x-fc-") {
+			temp[strings.ToLower(k)] = v
+		}
+	}
+	hs := newSorter(temp)
+
+	// Sort the temp by the ascending order
+	hs.Sort()
+
+	// Get the canonicalizedOSSHeaders
+	canonicalizedOSSHeaders := ""
+	for i := range hs.Keys {
+		canonicalizedOSSHeaders += hs.Keys[i] + ":" + hs.Vals[i] + "\n"
+	}
+
+	// Give other parameters values
+	// when sign URL, date is expires
+	date := req.Headers["date"]
+	contentType := req.Headers["content-type"]
+	contentMd5 := req.Headers["content-md5"]
+
+	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + canonicalizedResource
+	h := hmac.New(func() hash.Hash { return sha256.New() }, []byte(accessKeySecret))
+	io.WriteString(h, signStr)
+	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
+
+	return signedStr
 }
 
 func Use(condition bool, a string, b string) string {
@@ -37,37 +131,4 @@ func Use(condition bool, a string, b string) string {
 		return a
 	}
 	return b
-}
-
-func buildRpcStringToSign(request *tea.Request, queriesToSign map[string]string) (stringToSign string) {
-	stringToSign = getUrlFormedMap(queriesToSign)
-	stringToSign = strings.Replace(stringToSign, "+", "%20", -1)
-	stringToSign = strings.Replace(stringToSign, "*", "%2A", -1)
-	stringToSign = strings.Replace(stringToSign, "%7E", "~", -1)
-	stringToSign = url.QueryEscape(stringToSign)
-	stringToSign = request.Method + "&%2F&" + stringToSign
-	return
-}
-
-func getUrlFormedMap(source map[string]string) (urlEncoded string) {
-	urlEncoder := url.Values{}
-	for key, value := range source {
-		urlEncoder.Add(key, value)
-	}
-	urlEncoded = urlEncoder.Encode()
-	return
-}
-
-func sign(stringToSign, accessKeySecret, secretSuffix string) string {
-	secret := accessKeySecret + secretSuffix
-	signedBytes := shaHmac1(stringToSign, secret)
-	signedString := base64.StdEncoding.EncodeToString(signedBytes)
-	return signedString
-}
-
-func shaHmac1(source, secret string) []byte {
-	key := []byte(secret)
-	hmac := hmac.New(sha1.New, key)
-	hmac.Write([]byte(source))
-	return hmac.Sum(nil)
 }

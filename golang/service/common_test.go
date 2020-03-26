@@ -22,11 +22,11 @@ func Test_GetSignature(t *testing.T) {
 	req.Query["test"] = "ok"
 
 	sign := GetSignature("accessKeyId", "accessKeySecret", req, "version")
-	utils.AssertEqual(t, "FC accessKeyId:NDLiuxe3uHGNaZAUJQ0Fm1zVhxY=", sign)
+	utils.AssertEqual(t, "FC accessKeyId:7yYNfILYAn+LYBAnQZbxxLDKp3gBmVGgPzlkVC1MQgk=", sign)
 
 	req.Pathname = "version/proxy/"
 	sign = GetSignature("accessKeyId", "accessKeySecret", req, "version")
-	utils.AssertEqual(t, "FC accessKeyId:jHx/oHoHNrbVfhncHEvPdHXZwHU=", sign)
+	utils.AssertEqual(t, "FC accessKeyId:+DfOYcxRkkyfP42dy+vVAZ5yb/xy7iWWmuf9SZBD3kU=", sign)
 }
 
 func Test_Use(t *testing.T) {

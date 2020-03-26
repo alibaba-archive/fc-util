@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "FCUtil",
-	"version": "1.6.1",
+	"version": "1.6.2",
 	"main": "./util.tea",
 	"releases": {
 		"go": "github.com/aliyun/fc-util/golang/service:v0.0.1",
