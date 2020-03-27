@@ -17,3 +17,5 @@ target/
 .settings/
 .classpath
 .project
+coverage.html
+coverage.out
