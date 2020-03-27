@@ -4,6 +4,9 @@
 
 # Alibaba Cloud FC Util
 
+[![Travis Build Status](https://travis-ci.org/aliyun/fc-util.svg?branch=master)](https://travis-ci.org/aliyun/fc-util)
+[![codecov](https://codecov.io/gh/aliyun/fc-util/branch/master/graph/badge.svg)](https://codecov.io/gh/aliyun/fc-util)
+
 ## 安装
 
 - [Go](./golang/README-CN.md)
