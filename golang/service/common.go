@@ -93,7 +93,7 @@ func (hs *Sorter) Swap(i, j int) {
 }
 
 func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret string) string {
-	// Find out the "x-oss-"'s address in header of the request
+	// Find out the "x-fc-"'s address in header of the request
 	temp := make(map[string]string)
 
 	for k, v := range req.Headers {
@@ -106,10 +106,10 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 	// Sort the temp by the ascending order
 	hs.Sort()
 
-	// Get the canonicalizedOSSHeaders
-	canonicalizedOSSHeaders := ""
+	// Get the canonicalizedFCHeaders
+	canonicalizedFCHeaders := ""
 	for i := range hs.Keys {
-		canonicalizedOSSHeaders += hs.Keys[i] + ":" + hs.Vals[i] + "\n"
+		canonicalizedFCHeaders += hs.Keys[i] + ":" + hs.Vals[i] + "\n"
 	}
 
 	// Give other parameters values
@@ -118,7 +118,7 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 	contentType := req.Headers["content-type"]
 	contentMd5 := req.Headers["content-md5"]
 
-	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + canonicalizedResource
+	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedFCHeaders + canonicalizedResource
 	h := hmac.New(func() hash.Hash { return sha256.New() }, []byte(accessKeySecret))
 	io.WriteString(h, signStr)
 	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
