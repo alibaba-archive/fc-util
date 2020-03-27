@@ -11,4 +11,3 @@ composer.lock
 cache/
 *.cache
 runtime/
-test*
