@@ -35,6 +35,7 @@ namespace AlibabaCloud.FCUtil
             }
 
             string stringToSign = ComposeStringToSign(request.Method, request.Pathname, request.Headers, queriesToSign);
+            System.Diagnostics.Debug.WriteLine("GetSignature:stringToSign is " + stringToSign);
             byte[] signData;
             using(KeyedHashAlgorithm algorithm = CryptoConfig.CreateFromName("HMACSHA256") as KeyedHashAlgorithm)
             {
@@ -47,7 +48,7 @@ namespace AlibabaCloud.FCUtil
 
         public static string Use(bool? condition, string a, string b)
         {
-            return condition!=null && condition==true ? a : b;
+            return condition != null && condition == true ? a : b;
         }
 
         public static bool Is4XXor5XX(int? code)
@@ -59,26 +60,23 @@ namespace AlibabaCloud.FCUtil
         {
             string contentMD5 = DictUtils.GetDicValue(headers, "content-md5").ToSafeString(string.Empty);
             string contentType = DictUtils.GetDicValue(headers, "content-type").ToSafeString(string.Empty);
-            string date = DictUtils.GetDicValue(headers, "date");
+            string date = DictUtils.GetDicValue(headers, "date").ToSafeString(string.Empty);
             string signHeaders = BuildCanonicalHeaders(headers, "x-fc-");
 
             //Uri uri = new Uri(path);
             string pathName = HttpUtility.UrlDecode(path);
             string str = string.Format("{0}\n{1}\n{2}\n{3}\n{4}{5}", method, contentMD5, contentType, date, signHeaders, pathName);
 
-            if (queries != null)
+            if (queries != null && queries.Count > 0)
             {
                 List<string> sortedKeys = queries.Keys.ToList();
                 sortedKeys.Sort();
-                StringBuilder canonicalizedQueryString = new StringBuilder();
-
+                List<string> canonicalizedQueryList = new List<string>();
                 foreach (string key in sortedKeys)
                 {
-                    canonicalizedQueryString.Append("&")
-                        .Append(PercentEncode(key)).Append("=")
-                        .Append(PercentEncode(queries[key]));
+                    canonicalizedQueryList.Add(PercentEncode(key) + "=" + PercentEncode(queries[key]));
                 }
-                str += "\n" + canonicalizedQueryString.ToString();
+                str += "\n" + string.Join("\n", canonicalizedQueryList);
             }
 
             return str;
