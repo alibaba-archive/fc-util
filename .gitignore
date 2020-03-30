@@ -19,3 +19,4 @@ target/
 .project
 coverage.html
 coverage.out
+python/**/__pycache__
