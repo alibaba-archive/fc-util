@@ -28,22 +28,22 @@ namespace tests
         {
             TeaRequest request = new TeaRequest();
             request.Pathname = "/test";
-            request.Method = "Get";
+            request.Method = "GET";
             string signedStr = Common.GetSignature("accessKeyId", "accessKeySecret", request, "/version");
-            Assert.Equal("FC accessKeyId:dPtao8SaRUV+WpLeN6SCT3wRcJrn8M6d9AoH8tpWj7k=", signedStr);
+            Assert.Equal("FC accessKeyId:tvvm2KiUDmXlQiuwz21CtN59JcKTT5QzIcrc122DKVo=", signedStr);
 
             Dictionary<string, string> header = new Dictionary<string, string>();
             header.Add("x-fc-test", "test");
             request.Headers = header;
             signedStr = Common.GetSignature("accessKeyId", "accessKeySecret", request, "/version");
-            Assert.Equal("FC accessKeyId:mY3e3sR51Qu0+v/J8ObF819YniIezoEzmQhRo3iLBPo=", signedStr);
+            Assert.Equal("FC accessKeyId:lP6dXPCXlQNI7VY+f0brnZ4bwluNvGqcwdDf5GoM9ag=", signedStr);
 
             Dictionary<string, string> query = new Dictionary<string, string>();
             query.Add("testQuery", "test");
             request.Query = query;
             request.Pathname = "/version/proxy/";
             signedStr = Common.GetSignature("accessKeyId", "accessKeySecret", request, "/version");
-            Assert.Equal("FC accessKeyId:ljK3OKZ+fhhOqJu/PS5PV4BGvJzxdX/NGYc3NbNCqRs=", signedStr);
+            Assert.Equal("FC accessKeyId:aCD88kzuMQYKQGo7kq7DeqhT72nVrNSEqAJtiHNj9L0=", signedStr);
         }
 
         [Fact]
