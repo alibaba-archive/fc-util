@@ -51,6 +51,8 @@ class FCUtils
     }
 
     /**
+     * @deprecated
+     *
      * @param bool   $condition
      * @param string $a
      * @param string $b
@@ -60,6 +62,20 @@ class FCUtils
      * @return string
      */
     public static function useWithSuffix($condition, $a, $b)
+    {
+        return $condition ? $a : $b;
+    }
+
+    /**
+     * @param bool   $condition
+     * @param string $a
+     * @param string $b
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public static function use_($condition, $a, $b)
     {
         return $condition ? $a : $b;
     }
