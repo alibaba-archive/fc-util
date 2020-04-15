@@ -1,2 +1,2 @@
-2020-04-15 Version: v1.0.0
+2020-04-15 Version: v0.0.1
 - FC Util for Go SDK.
