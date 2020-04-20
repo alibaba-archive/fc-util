@@ -15,27 +15,27 @@ import (
 	"github.com/alibabacloud-go/tea/tea"
 )
 
-func GetContentMD5(a []byte) string {
+func GetContentMD5(a []byte) *string {
 	sum := md5.Sum(a)
 	b64 := base64.StdEncoding.EncodeToString(sum[:])
-	return b64
+	return tea.String(b64)
 }
 
-func GetContentLength(a []byte) string {
-	return strconv.Itoa(len(a))
+func GetContentLength(a []byte) *string {
+	return tea.String(strconv.Itoa(len(a)))
 }
 
-func GetSignature(accessKeyId string, accessKeySecret string, request *tea.Request, versionPrefix string) string {
+func GetSignature(accessKeyId, accessKeySecret *string, request *tea.Request, versionPrefix *string) *string {
 	queriesToSign := make(map[string]string)
-	if strings.HasPrefix(request.Pathname, versionPrefix+"/proxy/") {
+	if strings.HasPrefix(tea.StringValue(request.Pathname), tea.StringValue(versionPrefix)+"/proxy/") {
 		queriesToSign = request.Query
 	}
-	signature := getSignature(request, queriesToSign, accessKeySecret)
-	return "FC " + accessKeyId + ":" + signature
+	signature := getSignature(request, queriesToSign, tea.StringValue(accessKeySecret))
+	return tea.String("FC " + tea.StringValue(accessKeyId) + ":" + signature)
 }
 
 func getSignature(request *tea.Request, queriesToSign map[string]string, accessKeySecret string) string {
-	resource := request.Pathname
+	resource := tea.StringValue(request.Pathname)
 	if !strings.Contains(resource, "?") && len(queriesToSign) > 0 {
 		resource += "?"
 	}
@@ -118,7 +118,7 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 	contentType := req.Headers["content-type"]
 	contentMd5 := req.Headers["content-md5"]
 
-	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedFCHeaders + canonicalizedResource
+	signStr := tea.StringValue(req.Method) + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedFCHeaders + canonicalizedResource
 	h := hmac.New(func() hash.Hash { return sha256.New() }, []byte(accessKeySecret))
 	io.WriteString(h, signStr)
 	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
@@ -126,8 +126,8 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 	return signedStr
 }
 
-func Use(condition bool, a string, b string) string {
-	if condition {
+func Use(condition *bool, a *string, b *string) *string {
+	if tea.BoolValue(condition) {
 		return a
 	}
 	return b
