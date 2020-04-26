@@ -1,7 +1,27 @@
+/**
+ * Used for FC sdk
+ */
+
+/**
+ * Calculate md5 according to body
+ * @return md5
+ */
 static function getContentMD5(body: bytes): string;
 
+/**
+ * Calculate length according to body
+ * @return length
+ */
 static function getContentLength(body: bytes): string;
 
+/**
+ * If condition is true, return a, or return b
+ * @return string
+ */
 static function use(condition: boolean, a: string, b: string): string;
 
+/**
+ * Get signature according to accessKeyId, accessKeySecret, request and versionPrefix
+ * @return signature
+ */
 static function getSignature(accessKeyId: string, accessKeySecret: string, request: $Request, versionPrefix: string): string;
