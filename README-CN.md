@@ -14,6 +14,7 @@
 - [.Net](./csharp/README-CN.md)
 - [TypeScript/Node.js](./ts/README-CN.md)
 - [Swift](./swift/README-CN.md)
+- [Python](./python/README-CN.md)
 
 ## 问题
 
