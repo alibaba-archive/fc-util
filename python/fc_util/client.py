@@ -57,7 +57,7 @@ def get_content_length(body):
     return len(body)
 
 
-def use(condition, a, b):
+def use_(condition, a, b):
     return a if condition else b
 
 

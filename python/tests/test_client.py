@@ -15,9 +15,9 @@ class TestClient(unittest.TestCase):
             bytes("test", encoding="utf-8")))
 
     def test_use(self):
-        self.assertEqual("a", client.use(True, "a", "b"))
-        self.assertEqual("b", client.use(False, "a", "b"))
-        self.assertEqual("b", client.use(None, "a", "b"))
+        self.assertEqual("a", client.use_(True, "a", "b"))
+        self.assertEqual("b", client.use_(False, "a", "b"))
+        self.assertEqual("b", client.use_(None, "a", "b"))
 
     def test_get_signature(self):
         request = TeaRequest()
