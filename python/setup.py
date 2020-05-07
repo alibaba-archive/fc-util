@@ -24,7 +24,7 @@ Created on 3/30/2020
 @author: Alibaba Cloud
 """
 
-PACKAGE = "fc_util"
+PACKAGE = "alibabacloudfcutil"
 DESCRIPTION = "The fc-util module of alibabaCloud Python SDK."
 AUTHOR = "Alibaba Cloud"
 AUTHOR_EMAIL = "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
@@ -62,4 +62,4 @@ setup_args = {
     )
 }
 
-setup(name='alibabacloud-fc-util', **setup_args)
+setup(name='alibabacloudfcutil', **setup_args)
