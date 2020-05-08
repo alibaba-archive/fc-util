@@ -19,17 +19,17 @@ func Test_GetContentLength(t *testing.T) {
 
 func Test_GetSignature(t *testing.T) {
 	req := tea.NewRequest()
-	req.Query["test"] = "ok"
-	req.Query["fc"] = "test"
-	req.Headers["x-fc-key"] = "key"
-	req.Headers["x-fc-value"] = "value"
+	req.Query["test"] = tea.String("ok")
+	req.Query["fc"] = tea.String("test")
+	req.Headers["x-fc-key"] = tea.String("key")
+	req.Headers["x-fc-value"] = tea.String("value")
 
 	sign := GetSignature(tea.String("accessKeyId"), tea.String("accessKeySecret"), req, tea.String("version"))
 	utils.AssertEqual(t, "FC accessKeyId:kLwSLdTyh317hUm7lChbT3FHVfB3MsQgaXINQNnUgZ0=", tea.StringValue(sign))
 
 	req.Pathname = tea.String("version/proxy/")
 	sign = GetSignature(tea.String("accessKeyId"), tea.String("accessKeySecret"), req, tea.String("version"))
-	utils.AssertEqual(t, "FC accessKeyId:qaUk3ESvwnBOcX7186Bq5Niww86dPv6i4MjpWDu+IoA=", tea.StringValue(sign))
+	utils.AssertEqual(t, "FC accessKeyId:o+zJVz1UdvBjn2HBp7xMd88QBuuPLl6lkNE4Pca33q4=", tea.StringValue(sign))
 }
 
 func Test_Sorter(t *testing.T) {

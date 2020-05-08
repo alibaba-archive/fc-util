@@ -26,7 +26,7 @@ func GetContentLength(a []byte) *string {
 }
 
 func GetSignature(accessKeyId, accessKeySecret *string, request *tea.Request, versionPrefix *string) *string {
-	queriesToSign := make(map[string]string)
+	queriesToSign := make(map[string]*string)
 	if strings.HasPrefix(tea.StringValue(request.Pathname), tea.StringValue(versionPrefix)+"/proxy/") {
 		queriesToSign = request.Query
 	}
@@ -34,18 +34,23 @@ func GetSignature(accessKeyId, accessKeySecret *string, request *tea.Request, ve
 	return tea.String("FC " + tea.StringValue(accessKeyId) + ":" + signature)
 }
 
-func getSignature(request *tea.Request, queriesToSign map[string]string, accessKeySecret string) string {
+func getSignature(request *tea.Request, queriesToSign map[string]*string, accessKeySecret string) string {
 	resource := tea.StringValue(request.Pathname)
 	if !strings.Contains(resource, "?") && len(queriesToSign) > 0 {
 		resource += "?"
 	}
-	for key, value := range queriesToSign {
-		if value != "" {
-			if strings.HasSuffix(resource, "?") {
-				resource = resource + key + "=" + value
-			} else {
-				resource = resource + "&" + key + "=" + value
-			}
+
+	tmp := make(map[string]string)
+	for k, v := range queriesToSign {
+		tmp[k] = tea.StringValue(v)
+	}
+	hs := newSorter(tmp)
+	hs.Sort()
+	for i := range hs.Keys {
+		if strings.HasSuffix(resource, "?") {
+			resource = resource + hs.Keys[i] + "=" + hs.Vals[i]
+		} else {
+			resource = resource + "&" + hs.Keys[i] + "=" + hs.Vals[i]
 		}
 	}
 	return getSignedStr(request, resource, accessKeySecret)
@@ -98,7 +103,7 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 
 	for k, v := range req.Headers {
 		if strings.HasPrefix(strings.ToLower(k), "x-fc-") {
-			temp[strings.ToLower(k)] = v
+			temp[strings.ToLower(k)] = tea.StringValue(v)
 		}
 	}
 	hs := newSorter(temp)
@@ -114,9 +119,9 @@ func getSignedStr(req *tea.Request, canonicalizedResource, accessKeySecret strin
 
 	// Give other parameters values
 	// when sign URL, date is expires
-	date := req.Headers["date"]
-	contentType := req.Headers["content-type"]
-	contentMd5 := req.Headers["content-md5"]
+	date := tea.StringValue(req.Headers["date"])
+	contentType := tea.StringValue(req.Headers["content-type"])
+	contentMd5 := tea.StringValue(req.Headers["content-md5"])
 
 	signStr := tea.StringValue(req.Method) + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedFCHeaders + canonicalizedResource
 	h := hmac.New(func() hash.Hash { return sha256.New() }, []byte(accessKeySecret))
