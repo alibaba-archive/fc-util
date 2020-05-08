@@ -13,7 +13,7 @@
 
 ```bash
 # 安装 fc-util
-pip install alibabacloud-fc-util
+pip install alibabacloud_fc_util
 ```
 
 ## 问题

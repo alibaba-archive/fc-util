@@ -15,7 +15,7 @@
 		"java": "com.aliyun:fc-util:0.0.1",
 		"csharp": "AlibabaCloud.FCUtil:0.0.1",
 		"php": "alibabacloud/tea-fc-utils:^0.1.0",
-		"python": "alibabacloudfcutil:0.0.1"
+		"python": "alibabacloud_fc_util:0.0.1"
 	},
 	"java": {
 		"package": "com.aliyun.fcutil"
@@ -33,7 +33,7 @@
 		}
 	},
 	"python": {
-	    "package": "alibabacloudfcutil",
+	    "package": "alibabacloud_fc_util",
 		"clientName": "client"
 	}
 }

@@ -10,7 +10,7 @@ Python SDK uses a common package management tool named `pip`. If pip is not inst
 
 ```bash
 # Install the fc-util
-pip install alibabacloud-fc-util
+pip install alibabacloud_fc_util
 ```
 
 ## Issues
