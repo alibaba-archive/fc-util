@@ -1,6 +1,6 @@
 import unittest
 
-from alibabacloudfcutil import client
+from alibabacloud_fc_util import client
 from Tea.request import TeaRequest
 
 
