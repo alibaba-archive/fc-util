@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "FCUtil",
-	"version": "1.6.7",
+	"version": "1.6.8",
 	"main": "./util.tea",
 	"maintainers": [
 		{
@@ -10,7 +10,7 @@
 		}
 	],
 	"releases": {
-		"go": "github.com/alibabacloud-go/tea-fc-utils/service:v1.0.1",
+		"go": "github.com/alibabacloud-go/tea-fc-utils/service:v1.0.2",
 		"ts": "@alicloud/fc-util:1.0.0",
 		"java": "com.aliyun:fc-util:0.0.1",
 		"csharp": "AlibabaCloud.FCUtil:0.0.1",
