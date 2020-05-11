@@ -10,7 +10,7 @@
 		}
 	],
 	"releases": {
-		"go": "github.com/alibabacloud-go/tea-fc-utils/service:v1.0.2",
+		"go": "github.com/alibabacloud-go/tea-fc-utils/service:v1.1.0",
 		"ts": "@alicloud/fc-util:1.0.0",
 		"java": "com.aliyun:fc-util:0.0.1",
 		"csharp": "AlibabaCloud.FCUtil:0.0.1",
